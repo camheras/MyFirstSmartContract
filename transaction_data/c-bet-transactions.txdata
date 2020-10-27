@@ -1,0 +1,44 @@
+[
+    {
+        "transactionName": "cBetExists",
+        "transactionLabel": "A test cBetExists transaction",
+        "arguments": [
+            "001"
+        ],
+        "transientData": {}
+    },
+    {
+        "transactionName": "createCBet",
+        "transactionLabel": "A test createCBet transaction",
+        "arguments": [
+            "001",
+            "some value"
+        ],
+        "transientData": {}
+    },
+    {
+        "transactionName": "readCBet",
+        "transactionLabel": "A test readCBet transaction",
+        "arguments": [
+            "001"
+        ],
+        "transientData": {}
+    },
+    {
+        "transactionName": "updateCBet",
+        "transactionLabel": "A test updateCBet transaction",
+        "arguments": [
+            "001",
+            "some other value"
+        ],
+        "transientData": {}
+    },
+    {
+        "transactionName": "deleteCBet",
+        "transactionLabel": "A test deleteCBet transaction",
+        "arguments": [
+            "001"
+        ],
+        "transientData": {}
+    }
+]

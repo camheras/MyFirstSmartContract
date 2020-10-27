@@ -9,14 +9,14 @@ import org.hyperledger.fabric.contract.annotation.Property;
 import com.owlike.genson.Genson;
 
 @DataType()
-public class MyAsset {
+public class CBet {
 
     private final static Genson genson = new Genson();
 
     @Property()
     private String value;
 
-    public MyAsset(){
+    public CBet(){
     }
 
     public String getValue() {
@@ -31,8 +31,8 @@ public class MyAsset {
         return genson.serialize(this).toString();
     }
 
-    public static MyAsset fromJSONString(String json) {
-        MyAsset asset = genson.deserialize(json, MyAsset.class);
+    public static CBet fromJSONString(String json) {
+        CBet asset = genson.deserialize(json, CBet.class);
         return asset;
     }
 }

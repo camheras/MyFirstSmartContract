@@ -20,20 +20,20 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 
-public final class MyAssetContractTest {
+public final class CBetContractTest {
 
     @Nested
     class AssetExists {
         @Test
         public void noProperAsset() {
 
-            MyAssetContract contract = new  MyAssetContract();
+            CBetContract contract = new  CBetContract();
             Context ctx = mock(Context.class);
             ChaincodeStub stub = mock(ChaincodeStub.class);
             when(ctx.getStub()).thenReturn(stub);
 
             when(stub.getState("10001")).thenReturn(new byte[] {});
-            boolean result = contract.myAssetExists(ctx,"10001");
+            boolean result = contract.cBetExists(ctx,"10001");
 
             assertFalse(result);
         }
@@ -41,13 +41,13 @@ public final class MyAssetContractTest {
         @Test
         public void assetExists() {
 
-            MyAssetContract contract = new  MyAssetContract();
+            CBetContract contract = new  CBetContract();
             Context ctx = mock(Context.class);
             ChaincodeStub stub = mock(ChaincodeStub.class);
             when(ctx.getStub()).thenReturn(stub);
 
             when(stub.getState("10001")).thenReturn(new byte[] {42});
-            boolean result = contract.myAssetExists(ctx,"10001");
+            boolean result = contract.cBetExists(ctx,"10001");
 
             assertTrue(result);
 
@@ -55,13 +55,13 @@ public final class MyAssetContractTest {
 
         @Test
         public void noKey() {
-            MyAssetContract contract = new  MyAssetContract();
+            CBetContract contract = new  CBetContract();
             Context ctx = mock(Context.class);
             ChaincodeStub stub = mock(ChaincodeStub.class);
             when(ctx.getStub()).thenReturn(stub);
 
             when(stub.getState("10002")).thenReturn(null);
-            boolean result = contract.myAssetExists(ctx,"10002");
+            boolean result = contract.cBetExists(ctx,"10002");
 
             assertFalse(result);
 
@@ -74,21 +74,21 @@ public final class MyAssetContractTest {
 
         @Test
         public void newAssetCreate() {
-            MyAssetContract contract = new  MyAssetContract();
+            CBetContract contract = new  CBetContract();
             Context ctx = mock(Context.class);
             ChaincodeStub stub = mock(ChaincodeStub.class);
             when(ctx.getStub()).thenReturn(stub);
 
-            String json = "{\"value\":\"TheMyAsset\"}";
+            String json = "{\"value\":\"TheCBet\"}";
 
-            contract.createMyAsset(ctx, "10001", "TheMyAsset");
+            contract.createCBet(ctx, "10001", "TheCBet");
 
             verify(stub).putState("10001", json.getBytes(UTF_8));
         }
 
         @Test
         public void alreadyExists() {
-            MyAssetContract contract = new  MyAssetContract();
+            CBetContract contract = new  CBetContract();
             Context ctx = mock(Context.class);
             ChaincodeStub stub = mock(ChaincodeStub.class);
             when(ctx.getStub()).thenReturn(stub);
@@ -96,7 +96,7 @@ public final class MyAssetContractTest {
             when(stub.getState("10002")).thenReturn(new byte[] { 42 });
 
             Exception thrown = assertThrows(RuntimeException.class, () -> {
-                contract.createMyAsset(ctx, "10002", "TheMyAsset");
+                contract.createCBet(ctx, "10002", "TheCBet");
             });
 
             assertEquals(thrown.getMessage(), "The asset 10002 already exists");
@@ -107,18 +107,18 @@ public final class MyAssetContractTest {
 
     @Test
     public void assetRead() {
-        MyAssetContract contract = new  MyAssetContract();
+        CBetContract contract = new  CBetContract();
         Context ctx = mock(Context.class);
         ChaincodeStub stub = mock(ChaincodeStub.class);
         when(ctx.getStub()).thenReturn(stub);
 
-        MyAsset asset = new  MyAsset();
+        CBet asset = new  CBet();
         asset.setValue("Valuable");
 
         String json = asset.toJSONString();
         when(stub.getState("10001")).thenReturn(json.getBytes(StandardCharsets.UTF_8));
 
-        MyAsset returnedAsset = contract.readMyAsset(ctx, "10001");
+        CBet returnedAsset = contract.readCBet(ctx, "10001");
         assertEquals(returnedAsset.getValue(), asset.getValue());
     }
 
@@ -126,13 +126,13 @@ public final class MyAssetContractTest {
     class AssetUpdates {
         @Test
         public void updateExisting() {
-            MyAssetContract contract = new  MyAssetContract();
+            CBetContract contract = new  CBetContract();
             Context ctx = mock(Context.class);
             ChaincodeStub stub = mock(ChaincodeStub.class);
             when(ctx.getStub()).thenReturn(stub);
             when(stub.getState("10001")).thenReturn(new byte[] { 42 });
 
-            contract.updateMyAsset(ctx, "10001", "updates");
+            contract.updateCBet(ctx, "10001", "updates");
 
             String json = "{\"value\":\"updates\"}";
             verify(stub).putState("10001", json.getBytes(UTF_8));
@@ -140,7 +140,7 @@ public final class MyAssetContractTest {
 
         @Test
         public void updateMissing() {
-            MyAssetContract contract = new  MyAssetContract();
+            CBetContract contract = new  CBetContract();
             Context ctx = mock(Context.class);
             ChaincodeStub stub = mock(ChaincodeStub.class);
             when(ctx.getStub()).thenReturn(stub);
@@ -148,7 +148,7 @@ public final class MyAssetContractTest {
             when(stub.getState("10001")).thenReturn(null);
 
             Exception thrown = assertThrows(RuntimeException.class, () -> {
-                contract.updateMyAsset(ctx, "10001", "TheMyAsset");
+                contract.updateCBet(ctx, "10001", "TheCBet");
             });
 
             assertEquals(thrown.getMessage(), "The asset 10001 does not exist");
@@ -158,14 +158,14 @@ public final class MyAssetContractTest {
 
     @Test
     public void assetDelete() {
-        MyAssetContract contract = new  MyAssetContract();
+        CBetContract contract = new  CBetContract();
         Context ctx = mock(Context.class);
         ChaincodeStub stub = mock(ChaincodeStub.class);
         when(ctx.getStub()).thenReturn(stub);
         when(stub.getState("10001")).thenReturn(null);
 
         Exception thrown = assertThrows(RuntimeException.class, () -> {
-            contract.deleteMyAsset(ctx, "10001");
+            contract.deleteCBet(ctx, "10001");
         });
 
         assertEquals(thrown.getMessage(), "The asset 10001 does not exist");
